@@ -68,6 +68,7 @@
     <Content Include="FlaskWebProject1\templates\contact.html" />
     <Content Include="FlaskWebProject1\templates\index.html" />
     <Content Include="FlaskWebProject1\templates\layout.html" />
+    <Content Include="FlaskWebProject1\templates\maket.html" />
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include="env\">

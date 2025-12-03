@@ -35,3 +35,12 @@ def about():
         year=datetime.now().year,
         message='Your application description page.'
     )
+
+@app.route('/maket')
+def maket():
+    """Renders the maket page."""
+    return render_template(
+        'maket1511.html',
+        title='Maket Page',
+        year=datetime.now().year,
+    )
