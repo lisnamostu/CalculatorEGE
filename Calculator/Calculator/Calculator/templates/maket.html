@@ -11,19 +11,19 @@
             line-height: 1.6;
             margin: 0;
             padding: 0;
-            background-color: #34bcb186;
-            color: #ff0000;/*что делаем*/
+            background-color: #BFFFE3;
+            color: #004728; /*что делаем*/
             display: flex;
             flex-direction: column;
             min-height: 100vh;
         }
 
         header {
-            background-color: #13efd9;
-            color: #0008ff;/*инфа о сохранении данных*/
+            background-color: #25A672;
+            color: #004728; /*инфа о сохранении данных*/
             padding: 1.5rem 0;
             text-align: center;
-            box-shadow: 0 2px 5px rgb(255, 0, 0);/*горизонтальная черта разделитель*/
+            box-shadow: 0 2px 5px rgb(0, 71, 40); /*горизонтальная черта разделитель*/
         }
 
         header h1 {
@@ -41,8 +41,8 @@
             max-width: 960px;
             margin: 30px auto;
             padding: 25px;
-            background-color: #75e6f5;
-            box-shadow: 0 4px 15px rgb(0, 68, 255);/*рамка*/
+            background-color: #8AFFCC;
+            box-shadow: 0 4px 15px rgb(37, 166, 114); /*рамка*/
             border-radius: 10px;
             flex-grow: 1;
         }
@@ -59,14 +59,14 @@
         }
 
         h1, h2, h3 {
-            color: #2c5bba;/*большой текст заголовков и подзаголовков*/
+            color: #0E3927; /*большой текст заголовков и подзаголовков*/
             margin-top: 0;
             margin-bottom: 1rem;
         }
 
         h2 {
             font-size: 2rem;
-            border-bottom: 2px solid #04ff00;/*разделители*/
+            border-bottom: 2px solid #35B64F; /*разделители*/
             padding-bottom: 0.5rem;
             margin-bottom: 1.5rem;
         }
@@ -85,23 +85,26 @@
             display: block;
             margin-bottom: 8px;
             font-weight: bold;
-            color: #000000;/*подпункты*/
+            color: #0E3927; /*подпункты*/
             font-size: 1.1rem;
         }
 
         input[type="number"],
         input[type="text"] {
-            width: calc(100% - 24px);
+            width: calc(20%);
             padding: 12px;
-            border: 1px solid #3300ff;/*рамка*/
-                        border-radius: 6px;
+            border: 1px solid #25A672; /*рамка*/
+            border-radius: 6px;
             box-sizing: border-box;
             font-size: 1rem;
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
+        input[type="text"] {
+            width: calc(100%);
+        }
         button {
             background-color: #00ff6e86;
-            color: rgb(0, 0, 0);/*текст в рамках куки и рез*/
+            color: rgb(14, 57, 39);/*текст в рамках куки и рез*/
             padding: 12px 25px;
             border: none;
             border-radius: 6px;
@@ -127,8 +130,8 @@
         .results-display {
             margin-top: 25px;
             padding: 20px;
-            border: 1px dashed #001aff;
-            background-color: #7dc2ff7b;/*поля вывода*/
+            border: 1px dashed #004728;
+            background-color: #57DAA5; /*поля вывода*/
             border-radius: 8px;
             min-height: 60px;
             font-size: 1rem;
@@ -138,13 +141,13 @@
             margin-bottom: 8px;
         }
         .search-dropdown {
-            border: 1px solid #0008ff;
+            border: 1px solid #06e332;
             border-radius: 6px;
             max-height: 250px;
             overflow-y: auto;
             margin-top: 5px;
-            position: relative; 
-            z-index: 1000; 
+            position: relative;
+            z-index: 1000;
         }
         @media (max-width: 768px) {
             main {
