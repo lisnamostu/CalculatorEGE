@@ -164,7 +164,33 @@
         }
     </style>
 </head>
-<body>
+<body onload="loadCookie()">
+
+    <script>
+        function loadCookie() {
+            function getCookie(name) {
+                const cookies = document.cookie.split('; ');
+                for (let cookie of cookies) {
+                    const [cookieName, cookieValue] = cookie.split('=');
+                    if (cookieName === name) {
+                        return decodeURIComponent(cookieValue);
+                    }
+                }
+                return null;
+            }
+            const cookieData = getCookie('userData');
+            if (cookieData) {
+                const data = JSON.parse(cookieData);
+                document.getElementById("score-math").value = data["math"];
+                document.getElementById("score-rus").value = data["rus"];
+                document.getElementById("score-phys").value = data["phys"];
+                document.getElementById("score-inf").value = data["inf"];
+                document.getElementById("score-eng").value = data["eng"];
+                document.getElementById("score-ach").value = data["ach"];
+            }
+        };
+    </script>
+
     <header>
         <h1>Поиск и оценка шансов на поступление в вуз</h1>
         <p>Ваши данные строго анонимны и сохраняются только в браузере.</p>
@@ -176,32 +202,69 @@
             <form id="ege-form">
                 <div class="form-group">
                     <label for="ege-math">Математика (профиль):</label>
-                    <input type="number" id="ege-math" min="0" max="100" placeholder="Баллы" required>
+                    <input type="number" id="score-math" min="0" max="100" placeholder="Баллы">
                 </div>
                 <div class="form-group">
                     <label for="ege-rus">Русский язык:</label>
-                    <input type="number" id="ege-rus" min="0" max="100" placeholder="Баллы" required>
+                    <input type="number" id="score-rus" min="0" max="100" placeholder="Баллы">
                 </div>
                 <div class="form-group">
-                    <label for="ege-phys">Доп. предмет (напр., Физика/Информатика):</label>
-                    <input type="number" id="ege-phys" min="0" max="100" placeholder="Баллы" required>
+                    <label for="ege-phys">Физика:</label>
+                    <input type="number" id="score-phys" min="0" max="100" placeholder="Баллы">
                 </div>
                 <div class="form-group">
-                    <label for="ege-phys">Доп. предмет (напр., Физика/Информатика):</label>
-                    <input type="number" id="ege-phys" min="0" max="100" placeholder="Баллы" required>
+                    <label for="ege-phys">Информатика:</label>
+                    <input type="number" id="score-inf" min="0" max="100" placeholder="Баллы">
                 </div>
                 <div class="form-group">
-                    <label for="ege-phys">Доп. предмет (напр., Физика/Информатика):</label>
-                    <input type="number" id="ege-phys" min="0" max="100" placeholder="Баллы" required>
+                    <label for="ege-phys">Иностранный язык:</label>
+                    <input type="number" id="score-eng" min="0" max="100" placeholder="Баллы">
                 </div>
                 <div class="form-group">
                     <label for="achievements">Баллы за личные достижения (до 10 баллов):</label>
-                    <input type="number" id="achievements" min="0" max="10" placeholder="Баллы">
+                    <input type="number" id="score-ach" min="0" max="10" placeholder="Баллы">
                 </div>
-                <button type="submit">Сохранить данные в Cookies</button>
+                <button onclick="scoresToCookie()">Сохранить данные в Cookies</button>
             </form>
             <div id="data-status" class="message"></div>
         </section>
+
+        <script>
+            function scoresToCookie() {
+                // создание структуры данных
+                newCookieData = {
+                    "math": Number(document.getElementById("score-math").value),
+                    "rus": Number(document.getElementById("score-rus").value),
+                    "phys": Number(document.getElementById("score-phys").value),
+                    "inf": Number(document.getElementById("score-inf").value),
+                    "eng": Number(document.getElementById("score-eng").value),
+                    "ach": Number(document.getElementById("score-ach").value)
+                };
+
+                // пример сохранения данных в Cookies
+                document.cookie = "userData=" + encodeURIComponent(JSON.stringify(newCookieData)) + "; path=/; max-age=3600"; // сохраняет cookie на час
+
+                function getCookie(name) {
+                    const cookies = document.cookie.split(';');
+                    for (let cookie of cookies) {
+                        const [cookieName, cookieValue] = cookie.split('=');
+                        if (cookieName === name) {
+                            return decodeURIComponent(cookieValue);
+                        }
+                    }
+                    return null;
+                }
+
+                const cookieData = getCookie('userData');
+                if (cookieData) {
+                    const data = JSON.parse(cookieData);
+                    alert(JSON.stringify(data));
+                }
+
+                // можно также выполнить другие действия или отправить данные через AJAX
+                alert(document.cookie);
+            };
+        </script>
 
         <section id="choose-universities">
             <h2>2. Выберите 5 вузов для оценки</h2>
