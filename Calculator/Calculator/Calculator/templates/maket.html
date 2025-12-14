@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Поступление в вузы</title>
-    
+    <title>Поступление в ВУЗы</title>
+
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -26,16 +26,16 @@
             box-shadow: 0 2px 5px rgb(0, 71, 40); /*горизонтальная черта разделитель*/
         }
 
-        header h1 {
-            margin: 0;
-            font-size: 2.5rem;
-        }
+            header h1 {
+                margin: 0;
+                font-size: 2.5rem;
+            }
 
-        header p {
-            margin: 0.5rem 0 0;
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
+            header p {
+                margin: 0.5rem 0 0;
+                font-size: 1.1rem;
+                opacity: 0.9;
+            }
 
         main {
             max-width: 960px;
@@ -50,13 +50,13 @@
         section {
             margin-bottom: 35px;
             padding-bottom: 25px;
-            border-bottom: 1px solid #06e332;/*черта*/
+            border-bottom: 1px solid #06e332; /*черта*/
         }
 
-        section:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
-        }
+            section:last-child {
+                border-bottom: none;
+                padding-bottom: 0;
+            }
 
         h1, h2, h3 {
             color: #0E3927; /*большой текст заголовков и подзаголовков*/
@@ -77,6 +77,7 @@
             margin-bottom: 1rem;
         }
 
+        /* Формы и элементы ввода */
         .form-group {
             margin-bottom: 20px;
         }
@@ -95,16 +96,23 @@
             padding: 12px;
             border: 1px solid #25A672; /*рамка*/
             border-radius: 6px;
-            box-sizing: border-box;
+            box-sizing: border-box; /* Учитывает padding и border в ширине */
             font-size: 1rem;
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
         input[type="text"] {
             width: calc(100%);
         }
+        input[type="number"]:focus,
+        input[type="text"]:focus {
+            border-color: #d4edda;
+            box-shadow: 0 0 5px rgba(98, 251, 169, 0.564);
+            outline: none;
+        }
+
         button {
             background-color: #00ff6e86;
-            color: rgb(14, 57, 39);/*текст в рамках куки и рез*/
+            color: rgb(14, 57, 39); /*текст в рамках куки и рез*/
             padding: 12px 25px;
             border: none;
             border-radius: 6px;
@@ -114,19 +122,37 @@
             margin-top: 10px;
         }
 
-        button:hover:not(:disabled) {
-            background-color: #21ff03;/*рамки куки и рез при наведении курсора*/
-            transform: translateY(-2px);
+            button:hover:not(:disabled) {
+                background-color: #21ff03; /*рамки куки и рез при наведении курсора*/
+                transform: translateY(-2px);
+            }
+
+            button:active:not(:disabled) {
+                transform: translateY(0);
+            }
+
+            button:disabled {
+                background-color: #8e8e8e; /*рамка рассчета*/
+                cursor: not-allowed;
+            }
+
+        /* Сообщения и результаты */
+        .message {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 1rem;
+            background-color: #e9f7ef;
+            border: 1px solid #d4edda;
+            color: #155724;
         }
 
-        button:active:not(:disabled) {
-            transform: translateY(0);
-        }
+            .message.error {
+                background-color: #f8d7da;
+                border-color: #f5c6cb;
+                color: #721c24;
+            }
 
-        button:disabled {
-            background-color: #8e8e8e;/*рамка рассчета*/
-            cursor: not-allowed;
-        }
         .results-display {
             margin-top: 25px;
             padding: 20px;
@@ -137,29 +163,125 @@
             font-size: 1rem;
         }
 
-        .results-display p {
-            margin-bottom: 8px;
-        }
+            .results-display p {
+                margin-bottom: 8px;
+            }
+
+        /* Стили для выбора ВУЗов */
         .search-dropdown {
             border: 1px solid #06e332;
             border-radius: 6px;
             max-height: 250px;
             overflow-y: auto;
             margin-top: 5px;
+            background-color: #c5ffc5;
+            box-shadow: 0 2px 8px rgb(15, 50, 29);
             position: relative;
             z-index: 1000;
         }
+
+            .search-dropdown:empty {
+                border: none;
+                box-shadow: none;
+            }
+
+        .search-item {
+            padding: 12px;
+            cursor: pointer;
+            border-bottom: 1px solid #06e332;
+            transition: background-color 0.2s ease;
+        }
+
+            .search-item:last-child {
+                border-bottom: none;
+            }
+
+            .search-item:hover {
+                background-color: #a8ffe3;
+            }
+
+        #selected-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 15px;
+        }
+
+            #selected-list li {
+                background-color: #a8ffe3;
+                padding: 10px 15px;
+                margin-bottom: 8px;
+                border-radius: 6px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                font-size: 1.05rem;
+            }
+
+        .remove-uni {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            .remove-uni:hover {
+                background-color: #c82333;
+            }
+
+        /* Стиль для шансов */
+        .chance-high {
+            color: #28a745;
+            font-weight: bold;
+        }
+        /* Green */
+        .chance-medium {
+            color: #ffc107;
+            font-weight: bold;
+        }
+        /* Yellow/Orange */
+        .chance-low {
+            color: #dc3545;
+        }
+        /* Red */
+        .chance-info {
+            color: #17a2b8;
+        }
+        /* Blue/Cyan */
+        .chance-error {
+            color: #dc3545;
+        }
+        /* Red for error messages */
+
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            margin-top: 30px;
+            background-color: #0056b3;
+            color: #fff;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Адаптивность (базовая) */
         @media (max-width: 768px) {
             main {
                 margin: 15px;
                 padding: 15px;
             }
+
             header h1 {
                 font-size: 2rem;
             }
+
             h2 {
                 font-size: 1.7rem;
             }
+
             input[type="number"],
             input[type="text"] {
                 width: calc(100% - 20px);
@@ -167,33 +289,7 @@
         }
     </style>
 </head>
-<body onload="loadCookie()">
-
-    <script>
-        function loadCookie() {
-            function getCookie(name) {
-                const cookies = document.cookie.split('; ');
-                for (let cookie of cookies) {
-                    const [cookieName, cookieValue] = cookie.split('=');
-                    if (cookieName === name) {
-                        return decodeURIComponent(cookieValue);
-                    }
-                }
-                return null;
-            }
-            const cookieData = getCookie('userData');
-            if (cookieData) {
-                const data = JSON.parse(cookieData);
-                document.getElementById("score-math").value = data["math"];
-                document.getElementById("score-rus").value = data["rus"];
-                document.getElementById("score-phys").value = data["phys"];
-                document.getElementById("score-inf").value = data["inf"];
-                document.getElementById("score-eng").value = data["eng"];
-                document.getElementById("score-ach").value = data["ach"];
-            }
-        };
-    </script>
-
+<body>
     <header>
         <h1>Поиск и оценка шансов на поступление в вуз</h1>
         <p>Ваши данные строго анонимны и сохраняются только в браузере.</p>
@@ -204,70 +300,33 @@
             <h2>1. Ваши данные ЕГЭ и достижения</h2>
             <form id="ege-form">
                 <div class="form-group">
-                    <label for="ege-math">Математика (профиль):</label>
+                    <label for="score-math">Математика (профиль):</label>
                     <input type="number" id="score-math" min="0" max="100" placeholder="Баллы">
                 </div>
                 <div class="form-group">
-                    <label for="ege-rus">Русский язык:</label>
+                    <label for="score-rus">Русский язык:</label>
                     <input type="number" id="score-rus" min="0" max="100" placeholder="Баллы">
                 </div>
                 <div class="form-group">
-                    <label for="ege-phys">Физика:</label>
+                    <label for="score-phys">Физика:</label>
                     <input type="number" id="score-phys" min="0" max="100" placeholder="Баллы">
                 </div>
                 <div class="form-group">
-                    <label for="ege-phys">Информатика:</label>
+                    <label for="score-phys">Информатика:</label>
                     <input type="number" id="score-inf" min="0" max="100" placeholder="Баллы">
                 </div>
                 <div class="form-group">
-                    <label for="ege-phys">Иностранный язык:</label>
+                    <label for="score-phys">Иностранный язык:</label>
                     <input type="number" id="score-eng" min="0" max="100" placeholder="Баллы">
                 </div>
                 <div class="form-group">
-                    <label for="achievements">Баллы за личные достижения (до 10 баллов):</label>
+                    <label for="score-ach">Баллы за личные достижения (до 10 баллов):</label>
                     <input type="number" id="score-ach" min="0" max="10" placeholder="Баллы">
                 </div>
-                <button onclick="scoresToCookie()">Сохранить данные в Cookies</button>
             </form>
+            <button id="cookie-button">Сохранить данные в Cookies</button>
             <div id="data-status" class="message"></div>
         </section>
-
-        <script>
-            function scoresToCookie() {
-                // создание структуры данных
-                newCookieData = {
-                    "math": Number(document.getElementById("score-math").value),
-                    "rus": Number(document.getElementById("score-rus").value),
-                    "phys": Number(document.getElementById("score-phys").value),
-                    "inf": Number(document.getElementById("score-inf").value),
-                    "eng": Number(document.getElementById("score-eng").value),
-                    "ach": Number(document.getElementById("score-ach").value)
-                };
-
-                // пример сохранения данных в Cookies
-                document.cookie = "userData=" + encodeURIComponent(JSON.stringify(newCookieData)) + "; path=/; max-age=3600"; // сохраняет cookie на час
-
-                function getCookie(name) {
-                    const cookies = document.cookie.split(';');
-                    for (let cookie of cookies) {
-                        const [cookieName, cookieValue] = cookie.split('=');
-                        if (cookieName === name) {
-                            return decodeURIComponent(cookieValue);
-                        }
-                    }
-                    return null;
-                }
-
-                const cookieData = getCookie('userData');
-                if (cookieData) {
-                    const data = JSON.parse(cookieData);
-                    alert(JSON.stringify(data));
-                }
-
-                // можно также выполнить другие действия или отправить данные через AJAX
-                alert(document.cookie);
-            };
-        </script>
 
         <section id="choose-universities">
             <h2>2. Выберите 5 вузов для оценки</h2>
@@ -277,7 +336,7 @@
                 <input type="text" id="university-search" placeholder="Например: МГУ, Информатика">
             </div>
             <div id="search-results" class="search-dropdown">
-                <!-- Результаты поиска будут добавляться здесь через JS -->
+                <!-- Результаты поиска будут добавляться здесь -->
             </div>
             <div id="selected-universities">
                 <h3>Выбранные вузы:</h3>
@@ -300,5 +359,311 @@
             </div>
         </section>
     </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("Запуск")
+
+            // --- 1. Загрузка личных данных (ЕГЭ и достижения) ---
+            const egeForm = document.getElementById('ege-form');
+            const dataStatus = document.getElementById('data-status');
+            const scoreMathInput = document.getElementById('score-math');
+            const scoreRusInput = document.getElementById('score-rus');
+            const scorePhysInput = document.getElementById('score-phys');
+            const scoreInfInput = document.getElementById('score-inf');
+            const scoreEngInput = document.getElementById('score-eng');
+            const scoreAchInput = document.getElementById('score-ach');
+
+            // Функция для сохранения данных в cookies
+            function saveUserData(scoreMath, scoreRus, scorePhys, scoreInf, scoreEng, scoreAch) {
+                console.log("saveUserData1")
+                const userData = {
+                    Math: scoreMath,
+                    Rus: scoreRus,
+                    Phys: scorePhys,
+                    Inf: scoreInf,
+                    Eng: scoreEng,
+                    Ach: scoreAch
+                };
+                console.log("saveUserData2")
+                // Сохраняем как JSON-строку в cookie
+                // Срок действия - 30 дней, доступно на всем сайте
+                document.cookie = "userData=" + encodeURIComponent(JSON.stringify(userData)) + "; expires=${new Date(Date.now() + 86400000 * 30).toUTCString()}; path=/";
+                console.log("saveUserData3")
+                dataStatus.textContent = 'Данные успешно сохранены в Cookies.';
+                console.log("saveUserData4")
+                dataStatus.classList.remove('error');
+                console.log("saveUserData5")
+            }
+
+            // Функция для загрузки данных из cookies
+            function loadUserData() {
+                const cookies = document.cookie.split('; ').find(row => row.trim().startsWith('userData='));
+                if (cookies) {
+                    try {
+                        const userData = JSON.parse(decodeURIComponent(cookies.split('=')[1]));
+                        scoreMathInput.value = userData.Math || '';
+                        scoreRusInput.value = userData.Rus || '';
+                        scorePhysInput.value = userData.Phys || '';
+                        scoreInfInput.value = userData.Inf || '';
+                        scoreEngInput.value = userData.Eng || '';
+                        scoreAchInput.value = userData.Ach || '';
+                        dataStatus.textContent = 'Данные загружены из Cookies.';
+                        dataStatus.classList.remove('error');
+                        return userData;
+                    } catch (e) {
+                        console.error("Ошибка при парсинге cookies:", e);
+                        dataStatus.textContent = 'Ошибка при загрузке данных из Cookies.';
+                        dataStatus.classList.add('error');
+                        return null;
+                    }
+                }
+                return null;
+            }
+
+            // Загружаем данные при загрузке страницы
+            let currentUserData = loadUserData();
+
+            document.getElementById("cookie-button").addEventListener("click", () => {
+                console.log("saveToCookie1")
+                const scoreMath = parseInt(scoreMathInput.value) || 0;
+                const scoreRus = parseInt(scoreRusInput.value) || 0;
+                const scorePhys = parseInt(scorePhysInput.value) || 0;
+                const scoreInf = parseInt(scoreInfInput.value) || 0;
+                const scoreEng = parseInt(scoreEngInput.value) || 0;
+                const scoreAch = parseInt(scoreAchInput.value) || 0; // Если пусто, то 0
+                console.log("saveToCookie2")
+                // Простая валидация
+                if (isNaN(scoreMath) || isNaN(scoreRus) || isNaN(scorePhys) ||
+                    isNaN(scoreInf) || isNaN(scoreEng) || isNaN(scoreAch) ||
+                    scoreMath < 0 || scoreMath > 100 ||
+                    scoreRus < 0 || scoreRus > 100 ||
+                    scorePhys < 0 || scorePhys > 100 ||
+                    scoreInf < 0 || scoreInf > 100 ||
+                    scoreEng < 0 || scoreEng > 100 ||
+                    scoreAch < 0 || scoreAch > 10) {
+                    dataStatus.textContent = 'Пожалуйста, введите корректные баллы (ЕГЭ 0-100, Достижения 0-10).';
+                    dataStatus.classList.add('error');
+                } else {
+                    console.log("saveToCookie3")
+                    saveUserData(scoreMath, scoreRus, scorePhys, scoreInf, scoreEng, scoreAch);
+                    console.log("saveToCookie4")
+                    currentUserData = {
+                        Math: scoreMath,
+                        Rus: scoreRus,
+                        Phys: scorePhys,
+                        Inf: scoreInf,
+                        Eng: scoreEng,
+                        Ach: scoreAch
+                    };
+                    console.log("saveToCookie5")
+                    updateSelectedCount(); // Обновить состояние кнопки "Рассчитать вероятность"
+                    console.log("saveToCookie6")
+                }
+            });
+
+            // --- 2. Выбор 5 вузов и расчет шансов ---
+            const universitySearchInput = document.getElementById('university-search');
+            const searchResultsDiv = document.getElementById('search-results');
+            const selectedUniversitiesList = document.getElementById('selected-list');
+            const selectedCountSpan = document.getElementById('selected-count');
+            const calculateChancesButton = document.getElementById('calculate-chances');
+            const chancesResultsDiv = document.getElementById('chances-results');
+
+            let selectedUniversities = []; // Хранит {id: 'uni1', name: 'МГУ - Информатика'}
+
+            // Имитация базы данных ВУЗов (на реальном сайте это был бы API-запрос к бэкенду)
+            // minScore - это условный проходной балл прошлых лет
+            // places - примерное количество бюджетных мест (для более сложной логики)
+            // isAccepting - имитация периода подачи заявок
+            const mockUniversitiesDB = [
+                { id: 'uni1', name: 'МГУ - Информатика', minScore: 280, places: 100, isAccepting: true },
+                { id: 'uni2', name: 'МГУ - Физика', minScore: 260, places: 120, isAccepting: false }, // ВУЗ не принимает сейчас
+                { id: 'uni3', name: 'ВШЭ - Анализ данных', minScore: 290, places: 80, isAccepting: true },
+                { id: 'uni4', name: 'СПбГУ - Программирование', minScore: 275, places: 90, isAccepting: true },
+                { id: 'uni5', name: 'МИФИ - Кибербезопасность', minScore: 265, places: 150, isAccepting: true },
+                { id: 'uni6', name: 'МГТУ Баумана - Робототехника', minScore: 270, places: 110, isAccepting: true },
+                { id: 'uni7', name: 'ИТМО - Искусственный интеллект', minScore: 285, places: 70, isAccepting: true },
+                { id: 'uni8', name: 'РУДН - Лингвистика', minScore: 240, places: 200, isAccepting: true },
+                { id: 'uni9', name: 'МГУ - Мехмат', minScore: 278, places: 130, isAccepting: true },
+                { id: 'uni10', name: 'ВШЭ - Экономика', minScore: 282, places: 95, isAccepting: true },
+                { id: 'uni11', name: 'СПбГУ - Математика', minScore: 270, places: 100, isAccepting: true },
+                { id: 'uni12', name: 'МИЭТ - Электроника', minScore: 250, places: 180, isAccepting: true },
+                { id: 'uni13', name: 'КФУ - Химия', minScore: 230, places: 150, isAccepting: true },
+                { id: 'uni14', name: 'РГУ нефти и газа - Геология', minScore: 255, places: 110, isAccepting: true },
+                { id: 'uni15', name: 'УрФУ - Металлургия', minScore: 220, places: 130, isAccepting: true }
+            ];
+
+            function updateSelectedCount() {
+                selectedCountSpan.textContent = selectedUniversities.length;
+                calculateChancesButton.disabled = selectedUniversities.length === 0 || !currentUserData;
+            }
+
+            // Обработка поиска ВУЗа
+            universitySearchInput.addEventListener('input', () => {
+                const query = universitySearchInput.value.toLowerCase().trim();
+                searchResultsDiv.innerHTML = ''; // Очищаем предыдущие результаты
+                if (query.length < 2) {
+                    searchResultsDiv.classList.remove('active'); // Скрыть dropdown
+                    return;
+                }
+
+                const results = mockUniversitiesDB.filter(uni => uni.name.toLowerCase().includes(query)
+                ).slice(0, 10); // Показываем до 10 результатов
+
+                if (results.length > 0) {
+                    searchResultsDiv.classList.add('active'); // Показать dropdown
+                    results.forEach(uni => {
+                        const item = document.createElement('div');
+                        item.classList.add('search-item');
+                        item.textContent = uni.name;
+                        item.dataset.uniId = uni.id;
+                        item.dataset.uniName = uni.name;
+                        item.addEventListener('click', () => {
+                            if (selectedUniversities.length < 5 && !selectedUniversities.some(sUni => sUni.id === uni.id)) {
+                                selectedUniversities.push({ id: uni.id, name: uni.name });
+                                renderSelectedUniversities();
+                                universitySearchInput.value = ''; // Очистить поле поиска
+                                searchResultsDiv.innerHTML = ''; // Скрыть результаты поиска
+                                searchResultsDiv.classList.remove('active');
+                            } else if (selectedUniversities.some(sUni => sUni.id === uni.id)) {
+                                alert('Этот ВУЗ уже выбран!');
+                            } else {
+                                alert('Вы можете выбрать не более 5 ВУЗов.');
+                            }
+                        });
+                        searchResultsDiv.appendChild(item);
+                    });
+                } else {
+                    searchResultsDiv.classList.remove('active');
+                }
+            });
+
+            // Рендеринг выбранных ВУЗов
+            function renderSelectedUniversities() {
+                selectedUniversitiesList.innerHTML = '';
+                selectedUniversities.forEach(uni => {
+                    const li = document.createElement('li');
+                    li.textContent = uni.name;
+                    const removeBtn = document.createElement('button');
+                    removeBtn.classList.add('remove-uni');
+                    removeBtn.textContent = 'Удалить';
+                    removeBtn.addEventListener('click', () => {
+                        selectedUniversities = selectedUniversities.filter(sUni => sUni.id !== uni.id);
+                        renderSelectedUniversities();
+                    });
+                    li.appendChild(removeBtn);
+                    selectedUniversitiesList.appendChild(li);
+                });
+                updateSelectedCount();
+            }
+
+            // Функция расчета шансов (имитация)
+            function calculateChance(userData, university) {
+                if (!userData) return { text: "Нет данных ЕГЭ", chance: 0, status: 'error' };
+                const totalEGE = userData.Math + userData.Rus + userData.Phys;
+                const totalScore = totalEGE + userData.Ach;
+                console.log()
+                let chance = 0;
+                let text = '';
+                let status = 'neutral';
+
+                if (!university.isAccepting) {
+                    text = `ВУЗ "${university.name}" сейчас не принимает заявления.`;
+                    status = 'info';
+                    chance = -1; // Специальное значение для "не принимает"
+                } else if (totalScore >= university.minScore) {
+                    const diff = totalScore - university.minScore;
+                    if (diff >= 20) { // Если намного выше проходного
+                        chance = 90 + Math.min(10, diff / 5); // До 100%
+                        text = `Очень высокие шансы (${totalScore} баллов)`;
+                    } else if (diff >= 0) { // Если на уровне или немного выше
+                        chance = 70 + diff * 1.5; // От 70 до 90%
+                        text = `Хорошие шансы (${totalScore} баллов)`;
+                    }
+                    status = 'high';
+                } else { // Если баллов меньше проходного
+                    const diff = university.minScore - totalScore;
+                    if (diff <= 10) { // Если не сильно ниже
+                        chance = 40 + (10 - diff) * 3; // От 40 до 70%
+                        text = `Средние шансы (${totalScore} баллов). Нужно до ${university.minScore}`;
+                        status = 'medium';
+                    } else { // Если значительно ниже
+                        chance = Math.max(5, (totalScore / university.minScore) * 60); // От 5% до 40%
+                        text = `Низкие шансы (${totalScore} баллов). Проходной: ${university.minScore}`;
+                        status = 'low';
+                    }
+                }
+                return { text: text, chance: parseFloat(chance.toFixed(1)), status: status };
+            }
+
+            calculateChancesButton.addEventListener('click', () => {
+                if (!currentUserData) {
+                    chancesResultsDiv.innerHTML = '<p class="message error">Пожалуйста, сохраните ваши данные ЕГЭ и достижений.</p>';
+                    return;
+                }
+                if (selectedUniversities.length === 0) {
+                    chancesResultsDiv.innerHTML = '<p class="message error">Выберите хотя бы один ВУЗ.</p>';
+                    return;
+                }
+
+                chancesResultsDiv.innerHTML = '<h3>Ваши шансы:</h3>';
+                selectedUniversities.forEach(selectedUni => {
+                    const uniDetails = mockUniversitiesDB.find(u => u.id === selectedUni.id);
+                    if (uniDetails) {
+                        const result = calculateChance(currentUserData, uniDetails);
+                        const p = document.createElement('p');
+                        p.classList.add(`chance-${result.status}`); // Для стилизации в зависимости от шансов
+                        if (result.chance !== -1) { // Если вуз принимает заявления
+                            p.textContent = `${uniDetails.name}: ${result.text} (Вероятность: ${result.chance.toFixed(1)}%)`;
+                        } else { // Если вуз не принимает заявления
+                            p.textContent = `${uniDetails.name}: ${result.text}`;
+                        }
+                        chancesResultsDiv.appendChild(p);
+                    }
+                });
+            });
+
+
+            // --- 3. Нахождение всех возможных ВУЗов ---
+            const findAllChancesButton = document.getElementById('find-all-chances');
+            const allChancesResultsDiv = document.getElementById('all-chances-results');
+
+            findAllChancesButton.addEventListener('click', () => {
+                if (!currentUserData) {
+                    allChancesResultsDiv.innerHTML = '<p class="message error">Пожалуйста, сохраните ваши данные ЕГЭ и достижений.</p>';
+                    return;
+                }
+
+                allChancesResultsDiv.innerHTML = '<h3>Лучшие варианты для вас:</h3>';
+                const allResults = [];
+
+                mockUniversitiesDB.forEach(uni => {
+                    const result = calculateChance(currentUserData, uni);
+                    // Отфильтровываем совсем низкие шансы и не принимающие сейчас вузы для "возможных"
+                    // Показываем только те, где шанс > 20% и вуз принимает заявления
+                    if (result.chance !== -1 && result.chance > 20) {
+                        allResults.push({ uni: uni.name, chance: result.chance, text: result.text });
+                    }
+                });
+
+                // Сортируем по убыванию вероятности
+                allResults.sort((a, b) => b.chance - a.chance);
+
+                if (allResults.length === 0) {
+                    allChancesResultsDiv.innerHTML += "<p>Не найдено подходящих вариантов с разумными шансами (>20%) или принимающих заявления.</p>";
+                } else {
+                    allResults.slice(0, 10).forEach(item => { // Показываем топ-10
+                        const p = document.createElement('p');
+                        p.textContent = `${item.uni}: ${item.text} (Вероятность: ${item.chance.toFixed(1)}%)`;
+                        allChancesResultsDiv.appendChild(p);
+                    });
+                }
+            });
+
+            // Инициализация при загрузке
+            renderSelectedUniversities(); // Обновим счетчик выбранных вузов
+        });
+    </script>
 </body>
 </html>

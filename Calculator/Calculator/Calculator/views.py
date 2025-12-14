@@ -13,5 +13,4 @@ def maket():
     return render_template(
         'maket.html',
         title='Home Page',
-        year=datetime.now().year,
     )
