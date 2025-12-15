@@ -3,14 +3,20 @@ Routes and views for the flask application.
 """
 
 from datetime import datetime
-from flask import render_template
+from flask import render_template, jsonify, request
 from Calculator import app
+import pandas as pd
 
 @app.route('/')
-@app.route('/maket')
-def maket():
-    """Renders the maket page."""
-    return render_template(
-        'maket.html',
-        title='Home Page',
-    )
+def Website():
+    """Renders the Calculator page."""
+    return render_template('Calculator.html')
+
+@app.route('/calculatefive', methods=["POST"])
+def CalculateFive():
+    print(request.json)
+    return jsonify(message="success"+request.json)
+
+@app.route('/calculateall', methods=["GET", "POST"])
+def CalculateAll():
+    data = request.json["data"]

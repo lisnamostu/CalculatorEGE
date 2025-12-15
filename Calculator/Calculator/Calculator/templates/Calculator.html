@@ -596,7 +596,22 @@
                 }
                 return { text: text, chance: parseFloat(chance.toFixed(1)), status: status };
             }
-
+            /*
+            calculateChancesButton.addEventListener('click', () => {
+                fetch("/calculatefive", {
+                    "method": "POST",
+                    "headers": { "Content-Type": "application/json" },
+                    "body": JSON.stringify("test"),
+                }).then(message => message.json())
+                    .then(message => {
+                        console.log(message);
+                        chancesResultsDiv.innerHTML = '<p class="message error" id="new-message"></p>';
+                        console.log(message);
+                        document.getElementById("new-message").textContent = message.message;
+                        console.log(message);
+                    })
+            });
+            */
             calculateChancesButton.addEventListener('click', () => {
                 if (!currentUserData) {
                     chancesResultsDiv.innerHTML = '<p class="message error">Пожалуйста, сохраните ваши данные ЕГЭ и достижений.</p>';
@@ -623,7 +638,6 @@
                     }
                 });
             });
-
 
             // --- 3. Нахождение всех возможных ВУЗов ---
             const findAllChancesButton = document.getElementById('find-all-chances');
