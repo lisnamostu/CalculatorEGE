@@ -152,6 +152,57 @@
                 border-color: #f5c6cb;
                 color: #721c24;
             }
+        .message-high {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 1rem;
+            background-color: #efe9f7;
+            border: 1px solid #d4edda;
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .message-medium {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 1rem;
+            background-color: #efe9f7;
+            border: 1px solid #d4edda;
+            color: #ffc107;
+            font-weight: bold;
+        }
+
+        .message-low {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 1rem;
+            background-color: #efe9f7;
+            border: 1px solid #d4edda;
+            color: #dc3545;
+        }
+
+        .message-info {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 1rem;
+            background-color: #efe9f7;
+            border: 1px solid #d4edda;
+            color: #17a2b8;
+        }
+
+        .message-error {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 1rem;
+            background-color: #efe9f7;
+            border: 1px solid #d4edda;
+            color: #dc3545;
+        }
 
         .results-display {
             margin-top: 25px;
@@ -362,7 +413,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            console.log("Запуск")
 
             // --- 1. Загрузка личных данных (ЕГЭ и достижения) ---
             const egeForm = document.getElementById('ege-form');
@@ -376,7 +426,6 @@
 
             // Функция для сохранения данных в cookies
             function saveUserData(scoreMath, scoreRus, scorePhys, scoreInf, scoreEng, scoreAch) {
-                console.log("saveUserData1")
                 const userData = {
                     Math: scoreMath,
                     Rus: scoreRus,
@@ -385,15 +434,11 @@
                     Eng: scoreEng,
                     Ach: scoreAch
                 };
-                console.log("saveUserData2")
                 // Сохраняем как JSON-строку в cookie
                 // Срок действия - 30 дней, доступно на всем сайте
                 document.cookie = "userData=" + encodeURIComponent(JSON.stringify(userData)) + "; expires=${new Date(Date.now() + 86400000 * 30).toUTCString()}; path=/";
-                console.log("saveUserData3")
                 dataStatus.textContent = 'Данные успешно сохранены в Cookies.';
-                console.log("saveUserData4")
                 dataStatus.classList.remove('error');
-                console.log("saveUserData5")
             }
 
             // Функция для загрузки данных из cookies
@@ -425,14 +470,12 @@
             let currentUserData = loadUserData();
 
             document.getElementById("cookie-button").addEventListener("click", () => {
-                console.log("saveToCookie1")
                 const scoreMath = parseInt(scoreMathInput.value) || 0;
                 const scoreRus = parseInt(scoreRusInput.value) || 0;
                 const scorePhys = parseInt(scorePhysInput.value) || 0;
                 const scoreInf = parseInt(scoreInfInput.value) || 0;
                 const scoreEng = parseInt(scoreEngInput.value) || 0;
                 const scoreAch = parseInt(scoreAchInput.value) || 0; // Если пусто, то 0
-                console.log("saveToCookie2")
                 // Простая валидация
                 if (isNaN(scoreMath) || isNaN(scoreRus) || isNaN(scorePhys) ||
                     isNaN(scoreInf) || isNaN(scoreEng) || isNaN(scoreAch) ||
@@ -445,9 +488,7 @@
                     dataStatus.textContent = 'Пожалуйста, введите корректные баллы (ЕГЭ 0-100, Достижения 0-10).';
                     dataStatus.classList.add('error');
                 } else {
-                    console.log("saveToCookie3")
                     saveUserData(scoreMath, scoreRus, scorePhys, scoreInf, scoreEng, scoreAch);
-                    console.log("saveToCookie4")
                     currentUserData = {
                         Math: scoreMath,
                         Rus: scoreRus,
@@ -456,9 +497,7 @@
                         Eng: scoreEng,
                         Ach: scoreAch
                     };
-                    console.log("saveToCookie5")
                     updateSelectedCount(); // Обновить состояние кнопки "Рассчитать вероятность"
-                    console.log("saveToCookie6")
                 }
             });
 
@@ -476,6 +515,7 @@
             // minScore - это условный проходной балл прошлых лет
             // places - примерное количество бюджетных мест (для более сложной логики)
             // isAccepting - имитация периода подачи заявок
+            /*
             const mockUniversitiesDB = [
                 { id: 'uni1', name: 'МГУ - Информатика', minScore: 280, places: 100, isAccepting: true },
                 { id: 'uni2', name: 'МГУ - Физика', minScore: 260, places: 120, isAccepting: false }, // ВУЗ не принимает сейчас
@@ -492,7 +532,31 @@
                 { id: 'uni13', name: 'КФУ - Химия', minScore: 230, places: 150, isAccepting: true },
                 { id: 'uni14', name: 'РГУ нефти и газа - Геология', minScore: 255, places: 110, isAccepting: true },
                 { id: 'uni15', name: 'УрФУ - Металлургия', minScore: 220, places: 130, isAccepting: true }
-            ];
+            ];*/
+
+            function getUnivList() {
+                fetch("/getUnivList", {
+                    "method": "POST",
+                    "headers": { "Content-Type": "application/json" },
+                    "body": JSON.stringify(""),
+                }).then(message => message.json())
+                    .then(message => {
+                        strList = message.univList
+                        univList = []
+                        curUniv = ""
+                        for (let i = 0; i < strList.length; i++) {
+                            if (strList[i] == ";") {
+                                let newUniv = {id:`uni${univList.length+1}`, name:`${curUniv}`}
+                                univList.push(newUniv)
+                                curUniv = ""
+                            } else {
+                                curUniv += strList[i]
+                            }
+                        }
+                        return univList
+                    })
+            }
+            let univList = getUnivList()
 
             function updateSelectedCount() {
                 selectedCountSpan.textContent = selectedUniversities.length;
@@ -508,7 +572,7 @@
                     return;
                 }
 
-                const results = mockUniversitiesDB.filter(uni => uni.name.toLowerCase().includes(query)
+                const results = univList.filter(uni => uni.name.toLowerCase().includes(query)
                 ).slice(0, 10); // Показываем до 10 результатов
 
                 if (results.length > 0) {
@@ -560,41 +624,60 @@
 
             // Функция расчета шансов (имитация)
             function calculateChance(userData, university) {
-                if (!userData) return { text: "Нет данных ЕГЭ", chance: 0, status: 'error' };
-                const totalEGE = userData.Math + userData.Rus + userData.Phys;
-                const totalScore = totalEGE + userData.Ach;
-                console.log()
-                let chance = 0;
-                let text = '';
-                let status = 'neutral';
-
-                if (!university.isAccepting) {
-                    text = `ВУЗ "${university.name}" сейчас не принимает заявления.`;
-                    status = 'info';
-                    chance = -1; // Специальное значение для "не принимает"
-                } else if (totalScore >= university.minScore) {
-                    const diff = totalScore - university.minScore;
-                    if (diff >= 20) { // Если намного выше проходного
-                        chance = 90 + Math.min(10, diff / 5); // До 100%
-                        text = `Очень высокие шансы (${totalScore} баллов)`;
-                    } else if (diff >= 0) { // Если на уровне или немного выше
-                        chance = 70 + diff * 1.5; // От 70 до 90%
-                        text = `Хорошие шансы (${totalScore} баллов)`;
-                    }
-                    status = 'high';
-                } else { // Если баллов меньше проходного
-                    const diff = university.minScore - totalScore;
-                    if (diff <= 10) { // Если не сильно ниже
-                        chance = 40 + (10 - diff) * 3; // От 40 до 70%
-                        text = `Средние шансы (${totalScore} баллов). Нужно до ${university.minScore}`;
-                        status = 'medium';
-                    } else { // Если значительно ниже
-                        chance = Math.max(5, (totalScore / university.minScore) * 60); // От 5% до 40%
-                        text = `Низкие шансы (${totalScore} баллов). Проходной: ${university.minScore}`;
-                        status = 'low';
-                    }
+                if (!userData) {
+                    applyResults({ text: "Нет данных ЕГЭ", chance: 0, status: 'error', name:university.name });
+                    return;
                 }
-                return { text: text, chance: parseFloat(chance.toFixed(1)), status: status };
+                dataMessage = {
+                    Math: userData.Math,
+                    Rus: userData.Rus,
+                    Phys: userData.Phys,
+                    Inf: userData.Inf,
+                    Eng: userData.Eng,
+                    Ach: userData.Ach,
+                    Univ: university.id
+                }
+                fetch("/calculatefive", {
+                    "method": "POST",
+                    "headers": { "Content-Type": "application/json" },
+                    "body": JSON.stringify(dataMessage),
+                }).then(message => message.json())
+                    .then(message => {
+                        console.log(message)
+                        chance = message.chance
+                        totalScore = message.totalScore
+                        minScore = message.minScore
+                        statu = ''
+                        if (chance > 90) {
+                            text = `Очень высокие шансы (${totalScore} баллов)`;
+                            statu = 'high';
+                        } else if (chance > 70) {
+                            text = `Хорошие шансы (${totalScore} баллов)`;
+                            statu = 'high';
+                        } else if (chance > 40) {
+                            text = `Средние шансы (${totalScore} баллов). Нужно до ${minScore}`;
+                            statu = 'medium';
+                        } else if (chance > 5) {
+                            text = `Низкие шансы (${totalScore} баллов). Проходной: ${minScore}`;
+                            statu = 'low';
+                        } else {
+                            text = `Очень низкие шансы (${totalScore} баллов). Проходной: ${minScore}`;
+                            statu = 'low';
+                        }
+                        const result = { text: text, chance: parseFloat(chance.toFixed(1)), status: statu, name:university.name};
+                        applyResults(result);
+                    })
+            }
+
+            function applyResults(result) {
+                console.log(1)
+                console.log(result)
+                console.log(2)
+                console.log(result.status)
+                const p = document.createElement('p');
+                p.classList.add(`message-${result.status}`); // Для стилизации в зависимости от шансов
+                p.textContent = `${result.name}: ${result.text} (Вероятность: ${result.chance.toFixed(1)}%)`;
+                chancesResultsDiv.appendChild(p);
             }
             /*
             calculateChancesButton.addEventListener('click', () => {
@@ -604,11 +687,8 @@
                     "body": JSON.stringify("test"),
                 }).then(message => message.json())
                     .then(message => {
-                        console.log(message);
                         chancesResultsDiv.innerHTML = '<p class="message error" id="new-message"></p>';
-                        console.log(message);
                         document.getElementById("new-message").textContent = message.message;
-                        console.log(message);
                     })
             });
             */
@@ -624,17 +704,9 @@
 
                 chancesResultsDiv.innerHTML = '<h3>Ваши шансы:</h3>';
                 selectedUniversities.forEach(selectedUni => {
-                    const uniDetails = mockUniversitiesDB.find(u => u.id === selectedUni.id);
+                    const uniDetails = univList.find(u => u.id === selectedUni.id);
                     if (uniDetails) {
-                        const result = calculateChance(currentUserData, uniDetails);
-                        const p = document.createElement('p');
-                        p.classList.add(`chance-${result.status}`); // Для стилизации в зависимости от шансов
-                        if (result.chance !== -1) { // Если вуз принимает заявления
-                            p.textContent = `${uniDetails.name}: ${result.text} (Вероятность: ${result.chance.toFixed(1)}%)`;
-                        } else { // Если вуз не принимает заявления
-                            p.textContent = `${uniDetails.name}: ${result.text}`;
-                        }
-                        chancesResultsDiv.appendChild(p);
+                        calculateChance(currentUserData, uniDetails);
                     }
                 });
             });
@@ -652,7 +724,7 @@
                 allChancesResultsDiv.innerHTML = '<h3>Лучшие варианты для вас:</h3>';
                 const allResults = [];
 
-                mockUniversitiesDB.forEach(uni => {
+                univList.forEach(uni => {
                     const result = calculateChance(currentUserData, uni);
                     // Отфильтровываем совсем низкие шансы и не принимающие сейчас вузы для "возможных"
                     // Показываем только те, где шанс > 20% и вуз принимает заявления
